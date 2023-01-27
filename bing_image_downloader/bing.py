@@ -94,7 +94,7 @@ class Bing:
             # Parse the page source and download pics
             request_url = 'https://www.bing.com/images/async?q=' + urllib.parse.quote_plus(self.query) \
                           + '&first=' + str(self.page_counter) + '&count=' + str(self.limit) \
-                          + '&adlt=' + self.adult + '&qft=' + ('' if self.filter is None else self.get_filter(self.filter))
+                          + '&adlt=' + self.adult + '&qft=+filterui:licenseType-Any'
             request = urllib.request.Request(request_url, None, headers=self.headers)
             response = urllib.request.urlopen(request)
             html = response.read().decode('utf8')
@@ -106,10 +106,7 @@ class Bing:
                 print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
                 print("\n===============================================\n")
 
-            for link in links:
-                if self.download_count < self.limit and link not in self.seen:
-                    self.seen.add(link)
-                    self.download_image(link)
+            return links
 
             self.page_counter += 1
         print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))

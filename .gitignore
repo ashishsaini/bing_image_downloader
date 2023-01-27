@@ -4,3 +4,5 @@ dataset
 dist
 image_search.egg-info
 **/.vscode/*
+
+py3/
