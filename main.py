@@ -20,9 +20,16 @@ def search():
     if not validate(key):
         return jsonify({"error": "Invalid key"})
     query = request.args.get('query')
+    limit = 10
+    
+    try:
+        limit = int(request.args.get('limit'))
+    except Exception as e:
+        print(e)
+     
     print("query: ", query)
     print("filter: ", filter)
-    links = downloader.download(query, limit=10,  output_dir='dataset', adult_filter_off=True, force_replace=False, timeout=10, verbose=True)
+    links = downloader.download(query, limit=limit,  output_dir='dataset', adult_filter_off=True, force_replace=False, timeout=10, verbose=True)
     print("links: ", links)
     result = {"links": links}
     return json.dumps(result)
